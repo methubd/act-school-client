@@ -1,19 +1,39 @@
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../../../Hooks/useAuth";
 
 const Navbar = () => {
+    const {user, logOut} = useAuth();
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logOut()
+        .then()
+        navigate('/')
+    }
 
     const navigationOptions =   <>
                                 <li><Link to='/'>Home</Link></li>
                                 <li><Link to='/instructors'>Instructors</Link></li>
                                 <li><Link to='/classes'>Classes</Link></li>
-                                <li><Link to='/dashboard'>Dashboard</Link></li>
-                                <li><Link to='/login'>Login</Link></li>
-                                <img className="w-10 rounded-full" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="" />
+
+                                { user ? 
+                                    <>
+                                    <li><Link to='/dashboard'>Dashboard</Link></li>
+                                    <li><button onClick={handleLogout}>Logout</button></li>
+                                    </>                                     
+                                    :
+                                    <li><Link to='/login'>Login</Link></li>
+                                }
+
+                                {   user &&
+                                    <img className="w-10 rounded-full hidden md:block" src={user?.photoURL} alt={user?.displayName} />
+                                }
                                 </>
+                                
     return (
         <div className="navbar bg-base-100">
-        <div className="navbar-start">
+        <div className="w-full">
             <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
