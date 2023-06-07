@@ -1,19 +1,15 @@
+import { Link } from "react-router-dom";
 
 
 const Navbar = () => {
 
     const navigationOptions =   <>
-                                <li><a>Item 1</a></li>
-                                        <li tabIndex={0}>
-                                            <details>
-                                            <summary>Parent</summary>
-                                            <ul className="p-2">
-                                                <li><a>Submenu 1</a></li>
-                                                <li><a>Submenu 2</a></li>
-                                            </ul>
-                                            </details>
-                                        </li>
-                                        <li><a>Item 3</a></li>
+                                <li><Link to='/'>Home</Link></li>
+                                <li><Link to='/instructors'>Instructors</Link></li>
+                                <li><Link to='/classes'>Classes</Link></li>
+                                <li><Link to='/dashboard'>Dashboard</Link></li>
+                                <li><Link to='/login'>Login</Link></li>
+                                <img className="w-10 rounded-full" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="" />
                                 </>
     return (
         <div className="navbar bg-base-100">
@@ -32,9 +28,6 @@ const Navbar = () => {
             <ul className="menu menu-horizontal px-1">
             {navigationOptions}
             </ul>
-        </div>
-        <div className="navbar-end">
-            <a className="btn">Login</a>
         </div>
         </div>
     );
