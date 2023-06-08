@@ -7,6 +7,8 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import PrivateRoute from "./PrivateRoute";
+import DashboardHome from "../Pages/Dashboard/Home/DashboardHome";
+import ManageUsers from "../Pages/Dashboard/ManageUser/ManageUsers";
 
 export const router = createBrowserRouter ([
     {
@@ -25,10 +27,7 @@ export const router = createBrowserRouter ([
                 path: '/classes',
                 element: <Classes></Classes>
             },
-            {
-                path: '/dashboard',
-                element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>
-            },
+
             {
                 path: '/register',
                 element: <Register></Register>
@@ -40,7 +39,24 @@ export const router = createBrowserRouter ([
             {
                 path: '*',
                 element: <div>Error 404</div>
-            }
+            },
+
+                {
+                    path: '/dashboard',
+                    element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
+                    children: [
+                        {
+                            path: '/dashboard/',
+                            element: <DashboardHome></DashboardHome>
+                        },
+                        {
+                            path: '/dashboard/manage-users',
+                            element: <ManageUsers></ManageUsers>
+                        }
+                    ]
+                }
         ]
-    }
+    },
+
+    
 ])

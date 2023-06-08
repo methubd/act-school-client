@@ -29,17 +29,18 @@ const Register = () => {
             console.log(registeredUser);
             if(registeredUser){
                 Swal.fire({
-                    position: 'top-end',
+                    position: 'center',
                     icon: 'success',
                     title: 'User successfully created',
                     showConfirmButton: false,
                     timer: 1500
                   })
+                  
             }
 
             updateUserProfile(data.name, data.image)
             .then(() => {
-                const newUser = {name: data.name, email: data.email, role: 'user'}
+                const newUser = {name: data.name, email: data.email, image: data.image, role: 'user',}
                 fetch('http://localhost:3000/users', {
                     method: 'POST',
                     headers: {
@@ -47,6 +48,7 @@ const Register = () => {
                     },
                     body: JSON.stringify(newUser)
                 })
+                reset()
             })
 
         })
@@ -54,7 +56,7 @@ const Register = () => {
             console.log(error.message);
         })
 
-        reset()
+        
     };
     
 
@@ -73,10 +75,10 @@ const Register = () => {
                 <input className="bg-slate-200 py-2 w-full px-5 rounded-md my-2" {...register("email", { required: true })} placeholder="Valid Email" />
                 {errors.email && <span className="text-sm text-red-500">Email is required</span>}
 
-                <input className="bg-slate-200 py-2 w-full px-5 rounded-md my-2" {...register("password", { required: true })} placeholder="Password" />
+                <input className="bg-slate-200 py-2 w-full px-5 rounded-md my-2" {...register("password", { required: true })} placeholder="Password" type="password" />
                 {errors.password && <span className="text-sm text-red-500">Name is required</span>}
 
-                <input className="bg-slate-200 py-2 w-full px-5 rounded-md my-2" {...register("confirm")} placeholder="Confirm Password" />
+                <input className="bg-slate-200 py-2 w-full px-5 rounded-md my-2" {...register("confirm")} placeholder="Confirm Password" type="password" />
 
                 <input className="bg-slate-200 py-2 w-full px-5 rounded-md my-2" {...register("image", {required: true})} placeholder="Image URL" />
                 {errors.image && <span className="text-sm text-red-500">Image URL is required</span>} <br />
