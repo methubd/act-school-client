@@ -56,8 +56,11 @@ const AuthProvider = ({children}) => {
                     setLoading(false)
                 })
             }
-            console.log('Logged User', currentUser);
-
+            else{
+                localStorage.removeItem('Tokken')
+            }
+            
+            console.log('Logged User - ', currentUser? currentUser.displayName : 'No User');
 
         })
         return () => {

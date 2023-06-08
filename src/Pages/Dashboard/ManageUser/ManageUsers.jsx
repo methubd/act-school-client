@@ -1,16 +1,19 @@
-import { useEffect, useState } from "react";
+
+import { useQuery } from "react-query";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { useState } from "react";
 
 const ManageUsers = () => {
     const [logUsers, setUsers] = useState([]);
+    
+    const [axiosSecure] = useAxiosSecure();
 
-    useEffect(() => {
-        fetch('http://localhost:3000/users', {
-            method: 'GET',
-        })
-        .then(res => res.json())
-        .then(data => setUsers(data))
-
-    }, [])
+    const {data: users = [], refetch} = useQuery(['users'], async () => {
+        const res = await axiosSecure.get('/users')
+        console.log(res.data);
+        setUsers(res.data);
+        return res.data;
+    })
 
     return (
         <div className="h-screen w-full">
