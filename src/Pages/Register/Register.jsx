@@ -21,8 +21,7 @@ const Register = () => {
                 timer: 1500
               })
               return;
-        }       
-        console.log(email, password);
+        }
 
         createNewUser(email, password)
         .then(result => {
@@ -41,7 +40,13 @@ const Register = () => {
             updateUserProfile(data.name, data.image)
             .then(() => {
                 const newUser = {name: data.name, email: data.email, role: 'user'}
-                                
+                fetch('http://localhost:3000/users', {
+                    method: 'POST',
+                    headers: {
+                        "content-type" : "application/json"
+                    },
+                    body: JSON.stringify(newUser)
+                })
             })
 
         })

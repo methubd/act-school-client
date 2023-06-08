@@ -1,14 +1,34 @@
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SocialLogin from "../../components/SocialLogin/SocialLogin";
+import useAuth from "../../Hooks/useAuth";
+import Swal from "sweetalert2";
 
 
 const Login = () => {
+    const {passwordLogin} = useAuth();
     const {register, handleSubmit, reset, formState: {errors}} = useForm();
+    const navigate = useNavigate();
 
     const onSubmit = data => {
-        console.log(data, reset);
+        passwordLogin(data.email, data.password)
+
+        .then(() => {
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Social Login Success!',
+                showConfirmButton: false,
+                timer: 1500
+              })
+            reset()
+            navigate('/')
+
+        })
+        .catch(error => {
+            console.log(error.message);
+        })
     };
 
     return (
@@ -22,7 +42,7 @@ const Login = () => {
                 <input className="bg-slate-200 py-2 w-full px-5 rounded-md my-2" {...register("email", { required: true })} placeholder="Email" />
                 {errors.email && <span className="text-sm text-red-500">Email is required</span>}
 
-                <input className="bg-slate-200 py-2 w-full px-5 rounded-md my-2" {...register("password", { required: true })} placeholder="Password" />
+                <input className="bg-slate-200 py-2 w-full px-5 rounded-md my-2" {...register("password", { required: true })} placeholder="Password" type="password" />
                 {errors.password && <span className="text-sm text-red-500">Name is required</span>}
 
                 <div className="text-center">
