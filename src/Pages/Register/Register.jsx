@@ -2,12 +2,16 @@ import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import SocialLogin from "../../components/SocialLogin/SocialLogin";
+import useAuth from "../../Hooks/useAuth";
 
 
 const Register = () => {
+    const {createNewUser, updateUserProfile} = useAuth();
+
     const {register, handleSubmit, reset, formState: {errors}} = useForm();
     const onSubmit = data => {
-        const {password, confirm} = data;
+        const {password, confirm, email} = data;
         if(password !== confirm){
             Swal.fire({
                 position: 'center',
@@ -17,8 +21,34 @@ const Register = () => {
                 timer: 1500
               })
               return;
-        }
-        console.log(data);
+        }       
+        console.log(email, password);
+
+        createNewUser(email, password)
+        .then(result => {
+            const registeredUser = result.user;
+            console.log(registeredUser);
+            if(registeredUser){
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'User successfully created',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+            }
+
+            updateUserProfile(data.name, data.image)
+            .then(() => {
+                const newUser = {name: data.name, email: data.email, role: 'user'}
+                                
+            })
+
+        })
+        .catch(error => {
+            console.log(error.message);
+        })
+
         reset()
     };
     
@@ -50,6 +80,8 @@ const Register = () => {
                 </div>
             </form>
             <p className="text-center pb-5"><small>Already have an account? <Link to="/login" className="text-blue-500">Please Login</Link> </small></p>
+
+            <SocialLogin></SocialLogin>
         </div>
     );
 };
