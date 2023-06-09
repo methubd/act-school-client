@@ -7,7 +7,7 @@ const Classes = () => {
     const [classes, setInstructors] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:3000/classes`, {
+        fetch(`http://localhost:3000/classs`, {
             method: 'GET'
         })
         .then(data => data.json())
