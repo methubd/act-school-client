@@ -46,7 +46,7 @@ const Login = () => {
                 {errors.password && <span className="text-sm text-red-500">Password is required</span>}
 
                 <div className="text-center">
-                <input className="bg-gray-600 text-white px-8 py-2 rounded-sm my-5" type="submit" value="Login" />
+                <input className="bg-gray-600 text-white px-8 py-2 rounded-sm my-5 cursor-pointer" type="submit" value="Login" />
                 </div>
             </form>
             <p className="text-center pb-5"><small>New to ACT SCHOOL? <Link to="/register" className="text-blue-500">Please Register</Link> </small></p>

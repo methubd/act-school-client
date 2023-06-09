@@ -15,6 +15,11 @@ const ManageUsers = () => {
         return res.data;
     })
 
+    const handleMakeAdmin = user => {
+        console.log(user);
+        
+    }
+
     return (
         <div className="h-screen w-full">
             <h1 className="text-xl text-gray-500 py-5 bg-gray-100 text-center ">Manage Users </h1>
@@ -25,7 +30,6 @@ const ManageUsers = () => {
 
             <div className="overflow-x-auto">
                 <table className="table">
-                    {/* head */}
                     <thead>
                     <tr>
                         <th>
@@ -66,7 +70,7 @@ const ManageUsers = () => {
                             <td>
                             {user.email}
                             </td>
-                            <td><button className="btn btn-ghost btn-xs">Make Admin</button>
+                            <td><button onClick={() => handleMakeAdmin(user)} className="btn btn-ghost btn-xs">Make Admin</button>
                             
                             </td>
                             <td>

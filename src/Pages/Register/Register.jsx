@@ -12,6 +12,7 @@ const Register = () => {
     const {register, handleSubmit, reset, formState: {errors}} = useForm();
     const onSubmit = data => {
         const {password, confirm, email} = data;
+        // TODO: have to add password expression
         if(password !== confirm){
             Swal.fire({
                 position: 'center',
@@ -54,9 +55,7 @@ const Register = () => {
         })
         .catch(error => {
             console.log(error.message);
-        })
-
-        
+        })        
     };
     
 
@@ -83,7 +82,7 @@ const Register = () => {
                 <input className="bg-slate-200 py-2 w-full px-5 rounded-md my-2" {...register("image", {required: true})} placeholder="Image URL" />
                 {errors.image && <span className="text-sm text-red-500">Image URL is required</span>} <br />
                 <div className="text-center">
-                <input className="bg-gray-600 text-white px-8 py-2 rounded-sm my-5" type="submit" value="Register" />
+                <input className="bg-gray-600 text-white px-8 py-2 rounded-sm my-5 cursor-pointer" type="submit" value="Register" />
                 </div>
             </form>
             <p className="text-center pb-5"><small>Already have an account? <Link to="/login" className="text-blue-500">Please Login</Link> </small></p>

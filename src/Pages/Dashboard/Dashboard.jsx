@@ -1,9 +1,11 @@
 import { Link, Outlet } from "react-router-dom";
 import useAdmin from "../../Hooks/useAdmin";
+import useInstructor from "../../Hooks/useInstructor";
 
 
 const Dashboard = () => {
     const [isAdmin] = useAdmin()
+    const [isInstructor] = useInstructor()
 
     return (
         <div className="drawer lg:drawer-open">
@@ -25,6 +27,14 @@ const Dashboard = () => {
                     <>
                     <li> <Link to='/dashboard/manage-classes'>Manage Classes</Link> </li>
                     <li> <Link to='/dashboard/manage-users'>Manage Users</Link> </li>
+                    </>
+                }
+
+                {
+                    isInstructor &&
+                    <>
+                    <li> <Link to='/dashboard/add-class'>Add Class</Link> </li>
+                    <li> <Link to='/dashboard/my-classes'>My Classes</Link> </li>
                     </>
                 }
 
