@@ -2,7 +2,7 @@
 
 const WhyActSchool = () => {
     return (
-        <div>
+        <div className="bg-gray-50 py-10 my-10">
             <h1>Why Act School?</h1>
         </div>
     );

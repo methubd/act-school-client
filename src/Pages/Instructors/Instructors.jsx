@@ -17,7 +17,7 @@ const Instructors = () => {
     }, [user])
     
     return (
-        <div>
+        <div className="bg-gray-50 w-full py-20">
             <h1 className="text-center font-semibold text-3xl py-5 mt-10">Popular Instructors</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-10 ">

@@ -65,7 +65,7 @@ const Classes = () => {
     }
 
     return (
-        <div>
+        <div className="bg-gray-50 py-10 my-10 rounded-lg">
             <h1 className="text-center font-semibold text-3xl py-5 mt-10">Popular Classes</h1>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-10 ">

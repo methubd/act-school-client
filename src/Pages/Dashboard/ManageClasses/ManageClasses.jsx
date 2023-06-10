@@ -5,18 +5,32 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 const ManageClasses = () => {
     const [classes, setClasses] = useState([])
     const [axiosSecure] = useAxiosSecure()
-    console.log(classes);   
+    // console.log(classes);   
 
     useEffect(() => {
         const loadClasses = async () => {
             const serverResponse = await axiosSecure.get('/classs')
-            console.log(serverResponse);
+            // console.log(serverResponse);
             setClasses(serverResponse.data)
             return serverResponse.data;
         }
         loadClasses();
     }, [axiosSecure])
 
+    const handleApprove = async (cls) => {
+        console.log(cls._id);
+
+        const serverResponse = await axiosSecure.put(`/classs/${cls._id}`,
+        {status: 'Approved'}        
+        )
+
+        // console.log(serverResponse);      
+    }
+
+    
+    const handleFeedback = () => {
+        
+    }
     return (
         <div className='h-screen w-full'>
             <h1 className="text-xl text-gray-500 py-5 bg-gray-100 text-center ">Manage Instructors Classes : {classes.length}</h1>
@@ -68,11 +82,11 @@ const ManageClasses = () => {
                             </td>
                             <td>
                                 {/* TODO: add event handler and get data to a new field of existing table */}
-                                <form action="">
+                                <form onSubmit={handleFeedback} action="">
                                 <input className="bg-gray-200 py-2 px-2" type="text" name="feedback" placeholder="Feedback" />
                                 </form>
 
-                            <button className="btn btn-ghost btn-xs text-green-700">Approve</button>
+                            <button onClick={() => handleApprove(cls)} className="btn btn-ghost btn-xs text-green-700">Approve</button>
                             <button className="btn btn-ghost btn-xs text-red-600">Deny</button> <br />
                             </td>
                         </tr>)
