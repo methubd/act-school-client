@@ -38,14 +38,22 @@ const Classes = () => {
             navigate('/login')
             return;
         }
+        else if(isAdmin || isInstructor){
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: `${user.displayName}, You can not select any item`,
+                showConfirmButton: false,
+                timer: 1500
+              }) 
+              return;
+        }
 
-        console.log(cls);
         const {_id, price, instructorName, course, image} = cls;
         const selectedItem = {courseId:_id, price, instructorName, course, image, studentEmail: user?.email}
         
         axiosSecure.post('/selectedClass', selectedItem)
         .then(data => {
-            console.log(data);
             Swal.fire({
                 position: 'center',
                 icon: 'success',
@@ -53,7 +61,6 @@ const Classes = () => {
                 showConfirmButton: false,
                 timer: 1500
               }) 
-
         })
     }
 
