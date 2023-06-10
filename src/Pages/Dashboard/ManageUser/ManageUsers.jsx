@@ -2,23 +2,56 @@
 import { useQuery } from "react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useState } from "react";
+import Swal from "sweetalert2";
+import useChangeRole from "../../../Hooks/useChangeRole";
 
 const ManageUsers = () => {
-    const [logUsers, setUsers] = useState([]);
-    
+    const [logUsers, setUsers] = useState([]);    
     const [axiosSecure] = useAxiosSecure();
-
     const {data: users = [], refetch} = useQuery(['users'], async () => {
         const res = await axiosSecure.get('/users')
-        console.log(res.data);
+        // console.log(res.data);
         setUsers(res.data);
         return res.data;
     })
 
-    const handleMakeAdmin = user => {
-        console.log(user);
-        
+    const handleMakeAdmin = async user => {
+        const serverResponse = await axiosSecure.put(`/users/${user._id}`, {
+            role: 'admin',            
+        })
+
+        if(serverResponse.status === 200){
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: `${user.name} is now Admin`,
+                showConfirmButton: false,
+                timer: 1500
+              })
+        }        
     }
+
+    const handleMakeInstructor = async user => {
+        const serverResponse = await axiosSecure.put(`/users/instructor/${user._id}`, {
+            role: 'instructor',
+        })
+
+        if(serverResponse.status === 200){
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: `${user.name} is now Instructor`,
+                showConfirmButton: false,
+                timer: 1500
+              })
+        } 
+    }
+
+    
+
+
+
+    refetch()
 
     return (
         <div className="h-screen w-full">
@@ -74,7 +107,7 @@ const ManageUsers = () => {
                             
                             </td>
                             <td>
-                            <button className="btn btn-ghost btn-xs">Make Instructor</button>
+                            <button onClick={() => handleMakeInstructor(user)}  className="btn btn-ghost btn-xs">Make Instructor</button>
                             </td>
                             <td>
                             <button className="btn btn-ghost btn-xs bg-red-500 text-white">Delete</button>
