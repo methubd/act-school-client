@@ -8,7 +8,8 @@ import useChangeRole from "../../../Hooks/useChangeRole";
 const ManageUsers = () => {
     const [logUsers, setUsers] = useState([]);    
     const [axiosSecure] = useAxiosSecure();
-    const {data: users = [], refetch} = useQuery(['users'], async () => {
+    const {data: users = [], refetch} = useQuery(['users'], 
+    async () => {
         const res = await axiosSecure.get('/users')
         // console.log(res.data);
         setUsers(res.data);
@@ -70,10 +71,6 @@ const ManageUsers = () => {
               })
         } 
     }
-
-    
-
-
 
     refetch()
 

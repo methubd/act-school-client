@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { useQuery } from "react-query";
 
 
 const ManageClasses = () => {
@@ -18,13 +19,17 @@ const ManageClasses = () => {
         loadClasses();
     }, [axiosSecure])
 
-    const handleApprove = async (cls) => {
-        console.log(cls._id);
+    // TODO: have to fix the feedback section 
+    const handleFeedback = event => {
+        event.preventDefault();
+        const form = event.target;
+        const feedback = form.feedback.value;
+    }
 
+    const handleApprove = async (cls) => {
         const serverResponse = await axiosSecure.put(`/classs/${cls._id}`,
-        {status: 'Approved'}        
-        )
-        
+        {status: 'Approved', feedback: 'Hello'}        
+        )        
         if(serverResponse.status === 200){
             Swal.fire({
                 position: 'center',
@@ -38,9 +43,7 @@ const ManageClasses = () => {
     }
 
     
-    const handleFeedback = () => {
-        
-    }
+    
     return (
         <div className='h-screen w-full'>
             <h1 className="text-xl text-gray-500 py-5 bg-gray-100 text-center ">Manage Instructors Classes : {classes.length}</h1>
@@ -92,9 +95,8 @@ const ManageClasses = () => {
                             </td>
                             <td>
                                 {/* TODO: add event handler and get data to a new field of existing table */}
-                                <form onSubmit={handleFeedback} action="">
-                                <input className="bg-gray-200 py-2 px-2" type="text" name="feedback" placeholder="Feedback" />
-                                </form>
+                                
+                                <input onClick={() => handleFeedback (cls._id)} className="bg-gray-200 py-2 px-2" type="text" name="feedback" placeholder="Feedback" /> <br />                                
 
                             <button onClick={() => handleApprove(cls)} className="btn btn-ghost btn-xs text-green-700">Approve</button>
                             <button className="btn btn-ghost btn-xs text-red-600">Deny</button> <br />
