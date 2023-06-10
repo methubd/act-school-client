@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import useAuth from '../../../Hooks/useAuth';
 import { useQuery } from 'react-query';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
 
 const SelectedClass = () => {
     const {user, loading} = useAuth();
@@ -12,10 +13,36 @@ const SelectedClass = () => {
         enabled: !loading,
         queryFn: async () => {
             const res = await axiosSecure.get(`/selectedClass`)
-            console.log('res Selected Class - ', res.data);
+            // console.log('res Selected Class - ', res.data);
             return res.data;
         }
     })
+
+    const handleDelete = id => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.delete(`/selectedClass/${id}`)
+                .then(data => {
+                    Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                      )
+                      refetch()
+                })
+              
+            }
+          })
+        
+    }
     
     return (
         <div className='h-screen w-full'>
@@ -67,7 +94,7 @@ const SelectedClass = () => {
                                     <button className="btn btn-ghost btn-xs">pay</button>
                                     </td>
                                     <td>
-                                    <button className="btn btn-ghost btn-xs">Delete</button>
+                                    <button onClick={() => handleDelete (item._id)} className="btn btn-ghost btn-xs">Delete</button>
                                     </td>
                                 </tr>)
                             }
