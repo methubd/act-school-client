@@ -47,6 +47,20 @@ const ManageUsers = () => {
         } 
     }
 
+    const handleDeleteUser = async user => {
+        const serverResponse = await axiosSecure.delete(`/users/${user._id}`, )
+
+        if(serverResponse.status === 200){
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: `User Delete Success!`,
+                showConfirmButton: false,
+                timer: 1500
+              })
+        } 
+    }
+
     
 
 
@@ -110,7 +124,7 @@ const ManageUsers = () => {
                             <button onClick={() => handleMakeInstructor(user)}  className="btn btn-ghost btn-xs">Make Instructor</button>
                             </td>
                             <td>
-                            <button className="btn btn-ghost btn-xs bg-red-500 text-white">Delete</button>
+                            <button onClick={() => handleDeleteUser(user)} className="btn btn-ghost btn-xs bg-red-500 text-white">Delete</button>
                             </td>
                         </tr>)
                     }

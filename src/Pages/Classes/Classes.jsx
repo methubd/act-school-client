@@ -17,7 +17,7 @@ const Classes = () => {
     const [axiosSecure] = useAxiosSecure();
 
     useEffect(() => {
-        fetch(`http://localhost:3000/classs`, {
+        fetch(`http://localhost:3000/approved-classes`, {
             method: 'GET'
         })
         .then(data => data.json())
