@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 
 const ManageClasses = () => {
@@ -23,8 +24,17 @@ const ManageClasses = () => {
         const serverResponse = await axiosSecure.put(`/classs/${cls._id}`,
         {status: 'Approved'}        
         )
+        
+        if(serverResponse.status === 200){
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Approved!',
+                showConfirmButton: false,
+                timer: 1500
+              }) 
+        }
 
-        // console.log(serverResponse);      
     }
 
     
@@ -78,7 +88,7 @@ const ManageClasses = () => {
                             <td>
                             {cls?.instructorName}
                             <br/>
-                            <span className="badge badge-ghost badge-sm">{cls.instructorEmail}</span>
+                            <span className="badge badge-ghost badge-sm bg-blue-700 px-4 py-2 text-white">{cls.status}</span>
                             </td>
                             <td>
                                 {/* TODO: add event handler and get data to a new field of existing table */}
