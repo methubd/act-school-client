@@ -1,11 +1,13 @@
 import { Link, Outlet } from "react-router-dom";
 import useAdmin from "../../Hooks/useAdmin";
 import useInstructor from "../../Hooks/useInstructor";
+import useSelectedClasses from "../../Hooks/useSelectedClasses";
 
 
 const Dashboard = () => {
     const [isAdmin] = useAdmin()
     const [isInstructor] = useInstructor()
+    const [selectedClasses, refetch] = useSelectedClasses();
 
     return (
         <div className="drawer lg:drawer-open">
@@ -25,8 +27,8 @@ const Dashboard = () => {
                 {
                     isAdmin || isInstructor ||
                     <>
-                    <li> <Link to='/dashboard/selected-classes'>Selected Classes</Link> </li>
                     <li> <Link to='/dashboard/enrolled-class'>Enrolled Class</Link> </li>
+                    <button disabled={!selectedClasses}><li> <Link to='/dashboard/selected-classes'>Selected Classes</Link> </li></button>
                     </>
                 }
 

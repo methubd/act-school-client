@@ -7,7 +7,7 @@ const useSelectedClasses = () => {
     const {user, loading} = useAuth();
     const [axiosSecure] = useAxiosSecure();
 
-    const {refetch, data: selectedClasses = []} = useQuery({
+    const {refetch, data: selectedClasses = [], loading: isSelectedClassLoading} = useQuery({
         queryKey: ['selectedClass', user?.email],
         enabled: !loading,
         queryFn: async () => {
@@ -16,7 +16,7 @@ const useSelectedClasses = () => {
             return res.data;
         }
     })
-    return [selectedClasses, refetch]
+    return [selectedClasses, refetch, isSelectedClassLoading]
 };
 
 export default useSelectedClasses;
