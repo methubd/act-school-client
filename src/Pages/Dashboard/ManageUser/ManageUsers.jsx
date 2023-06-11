@@ -75,7 +75,7 @@ const ManageUsers = () => {
     refetch()
 
     return (
-        <div className="h-screen w-full">
+        <div className="h-full w-full">
             <h1 className="text-xl text-gray-500 py-5 bg-gray-100 text-center ">Manage Users </h1>
             <div className="flex justify-between">
                 <p><small>Total Users: {logUsers?.length}</small></p>

@@ -15,6 +15,7 @@ import AddClass from "../Pages/Dashboard/AddClass/AddClass";
 import MyClasses from "../Pages/Dashboard/MyClasses/MyClasses";
 import SelectedClass from "../Pages/Dashboard/SelectedClass/SelectedClass";
 import Payment from "../Pages/Dashboard/Payment/Payment";
+import EnroledClass from "../Pages/Dashboard/EnrolledClass/EnroledClass";
 
 export const router = createBrowserRouter ([
     {
@@ -78,6 +79,10 @@ export const router = createBrowserRouter ([
                         {
                             path: '/dashboard/payment',
                             element: <Payment></Payment>
+                        },
+                        {
+                            path: '/dashboard/enrolled-class',
+                            element: <EnroledClass></EnroledClass>
                         }
                     ]
                 }
