@@ -3,10 +3,12 @@ import useAuth from '../../../Hooks/useAuth';
 import { useQuery } from 'react-query';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
 
 const SelectedClass = () => {
     const {user, loading} = useAuth();
     const [axiosSecure] = useAxiosSecure();
+    const [classes, setClasses] = useState([]);
     
     const {refetch, data: selectedClasses = []} = useQuery({
         queryKey: ['selectedClass', user?.email],
@@ -14,9 +16,13 @@ const SelectedClass = () => {
         queryFn: async () => {
             const res = await axiosSecure.get(`/selectedClass`)
             // console.log('res Selected Class - ', res.data);
+            setClasses(selectedClasses)
             return res.data;
         }
     })
+    
+    const total = classes.reduce((sum, item) => sum + parseInt(item.price), 0);     
+    refetch()
 
     const handleDelete = id => {
         Swal.fire({
@@ -37,8 +43,7 @@ const SelectedClass = () => {
                         'success'
                       )
                       refetch()
-                })
-              
+                })              
             }
           })
         
@@ -101,6 +106,12 @@ const SelectedClass = () => {
                         
                         </tbody>   
                     </table>
+            </div>
+
+            <div className='bg-slate-100 w-full py-5 my-2 text-right'>
+                <p className='text-gray-500'>Total Payable: <span className='px-10 font-semibold border mx-10'>$ {total}</span></p>
+                <hr className='mt-5' />
+                <Link to="/dashboard/payment"><button className='px-5 mx-5 my-5 bg-gray-800 text-white py-1 rounded-lg'>Proceed to Pay</button></Link>
             </div>
 
         </div>

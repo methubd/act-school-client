@@ -14,6 +14,7 @@ import AdminRoute from "./AdminRoute";
 import AddClass from "../Pages/Dashboard/AddClass/AddClass";
 import MyClasses from "../Pages/Dashboard/MyClasses/MyClasses";
 import SelectedClass from "../Pages/Dashboard/SelectedClass/SelectedClass";
+import Payment from "../Pages/Dashboard/Payment/Payment";
 
 export const router = createBrowserRouter ([
     {
@@ -73,6 +74,10 @@ export const router = createBrowserRouter ([
                         {
                             path: '/dashboard/selected-classes', 
                             element: <SelectedClass></SelectedClass>
+                        },
+                        {
+                            path: '/dashboard/payment',
+                            element: <Payment></Payment>
                         }
                     ]
                 }
