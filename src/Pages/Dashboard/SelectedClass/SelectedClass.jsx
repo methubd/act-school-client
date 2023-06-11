@@ -1,27 +1,25 @@
 import React, { useState } from 'react';
-import useAuth from '../../../Hooks/useAuth';
-import { useQuery } from 'react-query';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
+import useSelectedClasses from '../../../Hooks/useSelectedClasses';
 
 const SelectedClass = () => {
-    const {user, loading} = useAuth();
     const [axiosSecure] = useAxiosSecure();
-    const [classes, setClasses] = useState([]);
+    const [selectedClasses, refetch] = useSelectedClasses()
     
-    const {refetch, data: selectedClasses = []} = useQuery({
-        queryKey: ['selectedClass', user?.email],
-        enabled: !loading,
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/selectedClass`)
-            // console.log('res Selected Class - ', res.data);
-            setClasses(selectedClasses)
-            return res.data;
-        }
-    })
+    // const {refetch, data: selectedClasses = []} = useQuery({
+    //     queryKey: ['selectedClass', user?.email],
+    //     enabled: !loading,
+    //     queryFn: async () => {
+    //         const res = await axiosSecure.get(`/selectedClass`)
+    //         // console.log('res Selected Class - ', res.data);
+    //         setClasses(selectedClasses)
+    //         return res.data;
+    //     }
+    // })
     
-    const total = classes.reduce((sum, item) => sum + parseInt(item.price), 0);     
+    const total = selectedClasses.reduce((sum, item) => sum + parseInt(item.price), 0);     
     refetch()
 
     const handleDelete = id => {
@@ -45,8 +43,7 @@ const SelectedClass = () => {
                       refetch()
                 })              
             }
-          })
-        
+          })        
     }
     
     return (
