@@ -62,7 +62,7 @@ const ManageClasses = () => {
     const handleSubmitFeedback = async (event, cls) => {
         event.preventDefault();
         console.log(event.target.feedback.value);
-
+        
     }
     
     
