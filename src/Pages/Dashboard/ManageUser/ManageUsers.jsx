@@ -117,7 +117,7 @@ const ManageUsers = () => {
                                 </div>
                                 <div>
                                 <div className="font-bold">{user.name}</div>
-                                <div><p className="text-gray-500">Power: {user.role}</p></div>
+                                <div><p className="text-gray-500">Power: <span className="border px-2 text-gray font-semibold rounded-lg">{user.role}</span></p></div>
                                 </div>
                             </div>
                             </td>

@@ -27,8 +27,9 @@ const Dashboard = () => {
                 {
                     isAdmin || isInstructor ||
                     <>
-                    <li> <Link to='/dashboard/enrolled-class'>Enrolled Class</Link> </li>
                     <button disabled={!selectedClasses}><li> <Link to='/dashboard/selected-classes'>Selected Classes</Link> </li></button>
+                    <li> <Link to='/dashboard/enrolled-class'>Enrolled Class</Link> </li>
+                    <li> <Link to='/dashboard/payment-history'>Payment History</Link> </li>
                     </>
                 }
 

@@ -74,8 +74,17 @@ const Register = () => {
                 <input className="bg-slate-200 py-2 w-full px-5 rounded-md my-2" {...register("email", { required: true })} placeholder="Valid Email" />
                 {errors.email && <span className="text-sm text-red-500">Email is required</span>}
 
-                <input className="bg-slate-200 py-2 w-full px-5 rounded-md my-2" {...register("password", { required: true })} placeholder="Password" type="password" />
-                {errors.password && <span className="text-sm text-red-500">Password is required</span>}
+                {/* <input className="bg-slate-200 py-2 w-full px-5 rounded-md my-2" {...register("password", { required: true })} placeholder="Password" type="password" />
+                {errors.password && <span className="text-sm text-red-500">Password is required</span>} */}
+
+                <input type="password" className="bg-slate-200 py-2 w-full px-5 rounded-md my-2"  {...register("password", {
+                                    required: true,
+                                    minLength: 6,
+                                    pattern: /(?=.*[A-Z])(?=.*[!@#$&*])/
+                                })} placeholder="Password"  />
+                                {errors.password?.type === 'required' && <p className="text-red-600">Password is required</p>}
+                                {errors.password?.type === 'minLength' && <p className="text-red-600">Password must be 6 characters</p>}
+                                {errors.password?.type === 'pattern' && <p className="text-red-600">Password must have one Uppercase, one special character.</p>}
 
                 <input className="bg-slate-200 py-2 w-full px-5 rounded-md my-2" {...register("confirm")} placeholder="Confirm Password" type="password" />
 

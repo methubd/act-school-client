@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { useQuery } from "react-query";
+import useClasses from "../../../Hooks/useClasses";
 
 
 const ManageClasses = () => {
     const [classes, setClasses] = useState([])
     const [axiosSecure] = useAxiosSecure()
+    const [feedback, setFeedback] = useState('');
     // console.log(classes);   
+    // console.log(feedback);
+
 
     useEffect(() => {
         const loadClasses = async () => {
@@ -19,17 +23,28 @@ const ManageClasses = () => {
         loadClasses();
     }, [axiosSecure])
 
-    // TODO: have to fix the feedback section 
-    const handleFeedback = event => {
-        event.preventDefault();
-        const form = event.target;
-        const feedback = form.feedback.value;
+    
+    const handleDeny = async (cls) => {
+        const serverResponse = await axiosSecure.put(`/classs-d/${cls._id}`,
+        {status: 'Denied', feedback: feedback}        
+        )        
+        if(serverResponse.status === 200){
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Denied!',
+                showConfirmButton: false,
+                timer: 1500
+              }) 
+              // TODO: have to submit feedback
+              window.FeedbackModal.showModal()
+        }        
     }
 
-    const handleApprove = async (cls) => {
+    const handleApprove = async (cls) => {    
         const serverResponse = await axiosSecure.put(`/classs/${cls._id}`,
-        {status: 'Approved', feedback: 'Hello'}        
-        )        
+        {status: 'Approved', feedback: feedback}
+        )
         if(serverResponse.status === 200){
             Swal.fire({
                 position: 'center',
@@ -38,15 +53,22 @@ const ManageClasses = () => {
                 showConfirmButton: false,
                 timer: 1500
               }) 
+              // TODO: have to submit feedback
+              window.FeedbackModal.showModal()
         }
+    }    
+
+    // TODO: have to fix the feedback section
+    const handleSubmitFeedback = async (event, cls) => {
+        event.preventDefault();
+        console.log(event.target.feedback.value);
 
     }
-
     
     
     return (
         <div className='h-full w-full'>
-            <h1 className="text-xl text-gray-500 py-5 bg-gray-100 text-center ">Manage Instructors Classes : {classes.length}</h1>
+            <h1 className="text-xl text-gray-500 py-5 bg-gray-100 text-center ">Manage Classes</h1>
 
             <div className="overflow-x-auto">
                 <table className="table">
@@ -60,7 +82,7 @@ const ManageClasses = () => {
                         </th>
                         <th>Class</th>
                         <th>Instructor</th>
-                        <th>Favorite Color</th>
+                        <th>Actions</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -91,21 +113,33 @@ const ManageClasses = () => {
                             <td>
                             {cls?.instructorName}
                             <br/>
-                            <span className="badge badge-ghost badge-sm bg-blue-700 px-4 py-2 text-white">{cls.status}</span>
+                            <span className={cls.status === "Approved" ? 'badge badge-ghost badge-sm bg-blue-700 px-4 py-2 text-white' : 'badge badge-ghost badge-sm bg-red-700 px-4 py-2 text-white'}>{cls.status}</span>
                             </td>
                             <td>
                                 {/* TODO: add event handler and get data to a new field of existing table */}
-                                
-                                <input onClick={() => handleFeedback (cls._id)} className="bg-gray-200 py-2 px-2" type="text" name="feedback" placeholder="Feedback" /> <br />                                
-
-                            <button onClick={() => handleApprove(cls)} className="btn btn-ghost btn-xs text-green-700">Approve</button>
-                            <button className="btn btn-ghost btn-xs text-red-600">Deny</button> <br />
+                            <button onClick={() => handleApprove(cls)} className="btn btn-ghost btn-xs text-green-700" disabled={cls.status === "Approved"}>Approve</button>
+                            <button onClick={() => handleDeny(cls)} className="btn btn-ghost btn-xs text-red-600">Deny</button>
                             </td>
                         </tr>)
                     }
-                         
+
                     </tbody>                    
                 </table>
+
+                {/* Open the modal using ID.showModal() method */}
+                <dialog id="FeedbackModal" className="modal">
+                    <form onSubmit={handleSubmitFeedback} method="dialog" className="modal-box">
+                        <p className="py-2"><small>Press ESC to close the box!</small></p>
+                        <h3 className="font-bold text-lg">Send a Feedback to Instructor!</h3>
+
+                        <textarea className="w-full bg-gray-200 p-5 rounded-lg" name="feedback"  cols="30" rows="10"></textarea>
+                        <div className="modal-action">
+                        {/* if there is a button in form, it will close the modal */}
+                        <input type="submit" name="" id="" />
+                        </div>
+                    </form>
+                </dialog>
+                
                 </div>
         </div>
     );
